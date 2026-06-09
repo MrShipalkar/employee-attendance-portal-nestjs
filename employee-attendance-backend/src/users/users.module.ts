@@ -9,6 +9,7 @@ import { Role } from '../database/models/role.model';
 import { Session } from '../database/models/session.model';
 import { Attendance } from '../database/models/attendance.model';
 import { LeaveRequest } from '../database/models/leave-request.model';
+import { LeaveBalance } from '../database/models/leave-balance.model';
 
 import { MailModule } from '../mail/mail.module';
 
@@ -20,6 +21,7 @@ import { MailModule } from '../mail/mail.module';
       Session,
       Attendance,
       LeaveRequest,
+      LeaveBalance,
     ]),
 
     MailModule,

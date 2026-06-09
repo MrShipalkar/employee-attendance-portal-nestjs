@@ -18,28 +18,33 @@ import { LeaveRequest } from '../database/models/leave-request.model';
 import { CreateUserDto } from '../auth/dto/create-user.dto';
 import { UpdateUserDto } from '../auth/dto/update-user.dto';
 import { MailService } from '../mail/mail.service';
+import { LeaveBalance } from '../database/models/leave-balance.model';
+
 
 
 @Injectable()
 export class UsersService {
   constructor(
-  @InjectModel(User)
-  private readonly userModel: typeof User,
+    @InjectModel(User)
+    private readonly userModel: typeof User,
 
-  @InjectModel(Role)
-  private readonly roleModel: typeof Role,
+    @InjectModel(Role)
+    private readonly roleModel: typeof Role,
 
-  @InjectModel(Session)
-  private readonly sessionModel: typeof Session,
+    @InjectModel(Session)
+    private readonly sessionModel: typeof Session,
 
-  @InjectModel(Attendance)
-  private readonly attendanceModel: typeof Attendance,
+    @InjectModel(Attendance)
+    private readonly attendanceModel: typeof Attendance,
 
-  @InjectModel(LeaveRequest)
-  private readonly leaveModel: typeof LeaveRequest,
+    @InjectModel(LeaveRequest)
+    private readonly leaveModel: typeof LeaveRequest,
 
-  private readonly mailService: MailService,
-) {}
+    @InjectModel(LeaveBalance)
+    private readonly leaveBalanceModel: typeof LeaveBalance,
+
+    private readonly mailService: MailService,
+  ) { }
 
   async createUser(
     createUserDto: CreateUserDto,
@@ -126,12 +131,21 @@ export class UsersService {
         isActive: true,
       } as any);
 
+    await this.leaveBalanceModel.create({
+      userId: user.id,
+      sickLeave: 12,
+      casualLeave: 12,
+      earnedLeave: 12,
+    } as any);
+
     return {
       message:
         'User created successfully',
       user,
     };
   }
+
+
 
   async findAll() {
     return this.userModel.findAll({
@@ -189,29 +203,29 @@ export class UsersService {
     };
 
     if (updateUserDto.password) {
-  const tempPassword =
-    updateUserDto.password;
+      const tempPassword =
+        updateUserDto.password;
 
-  const hashedPassword =
-    await bcrypt.hash(
-      tempPassword,
-      10,
-    );
+      const hashedPassword =
+        await bcrypt.hash(
+          tempPassword,
+          10,
+        );
 
-  updateData.passwordHash =
-    hashedPassword;
+      updateData.passwordHash =
+        hashedPassword;
 
-  delete updateData.password;
+      delete updateData.password;
 
-  updateData.forcePasswordChange =
-    true;
+      updateData.forcePasswordChange =
+        true;
 
-  await this.mailService.sendPasswordResetMail(
-    user.email,
-    user.username,
-    tempPassword,
-  );
-}
+      await this.mailService.sendPasswordResetMail(
+        user.email,
+        user.username,
+        tempPassword,
+      );
+    }
 
     await user.update(updateData);
 
@@ -360,84 +374,84 @@ export class UsersService {
   }
 
   async getMyProfile(
-  userId: string,
-) {
-  return this.findOne(userId);
-}
-
-async updateMyProfile(
-  userId: string,
-  dto: UpdateUserDto,
-) {
-  const user =
-    await this.userModel.findByPk(
-      userId,
-    );
-
-  if (!user) {
-    throw new NotFoundException(
-      'User not found',
-    );
+    userId: string,
+  ) {
+    return this.findOne(userId);
   }
 
-  await user.update({
-    firstName:
-      dto.firstName ??
-      user.firstName,
+  async updateMyProfile(
+    userId: string,
+    dto: UpdateUserDto,
+  ) {
+    const user =
+      await this.userModel.findByPk(
+        userId,
+      );
 
-    lastName:
-      dto.lastName ??
-      user.lastName,
-  });
+    if (!user) {
+      throw new NotFoundException(
+        'User not found',
+      );
+    }
 
-  return {
-    message:
-      'Profile updated successfully',
-  };
-}
+    await user.update({
+      firstName:
+        dto.firstName ??
+        user.firstName,
 
-async saveProfilePicture(
-  userId: string,
-  filename: string,
-) {
-  const user =
-    await this.userModel.findByPk(
-      userId,
-    );
+      lastName:
+        dto.lastName ??
+        user.lastName,
+    });
 
-  if (!user) {
-    throw new NotFoundException(
-      'User not found',
-    );
+    return {
+      message:
+        'Profile updated successfully',
+    };
   }
 
-  const imagePath =
-    `/uploads/profile/${filename}`;
+  async saveProfilePicture(
+    userId: string,
+    filename: string,
+  ) {
+    const user =
+      await this.userModel.findByPk(
+        userId,
+      );
 
-  await user.update({
-    profilePicture:
-      imagePath,
-  });
+    if (!user) {
+      throw new NotFoundException(
+        'User not found',
+      );
+    }
 
-  return {
-    message:
-      'Profile picture updated',
-    profilePicture:
-      imagePath,
-  };
-}
+    const imagePath =
+      `/uploads/profile/${filename}`;
 
-async getHrUsers() {
-  return this.userModel.findAll({
-    include: [
-      {
-        model: Role,
-        where: {
-          name: 'HR',
+    await user.update({
+      profilePicture:
+        imagePath,
+    });
+
+    return {
+      message:
+        'Profile picture updated',
+      profilePicture:
+        imagePath,
+    };
+  }
+
+  async getHrUsers() {
+    return this.userModel.findAll({
+      include: [
+        {
+          model: Role,
+          where: {
+            name: 'HR',
+          },
         },
-      },
-    ],
-  });
-}
+      ],
+    });
+  }
 
 }

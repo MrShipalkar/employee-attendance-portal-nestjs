@@ -74,3 +74,13 @@ export const getMyLeaves =
 
     return response.data;
   };
+
+export const getMyLeaveBalance =
+  async () => {
+    const response =
+      await api.get(
+        '/leaves/balance',
+      );
+
+    return response.data;
+  };

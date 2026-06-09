@@ -14,6 +14,7 @@ import { ApplyLeaveDto } from './dto/apply-leave.dto';
 import { LeaveActionDto } from './dto/leave-action.dto';
 
 import { LeaveStatus } from '../common/enums/leave-status.enum';
+import { LeaveBalance } from '../database/models/leave-balance.model';
 
 @Injectable()
 export class LeavesService {
@@ -21,9 +22,12 @@ export class LeavesService {
     @InjectModel(LeaveRequest)
     private readonly leaveModel: typeof LeaveRequest,
 
+    @InjectModel(LeaveBalance)
+    private readonly leaveBalanceModel: typeof LeaveBalance,
+
     @InjectModel(User)
     private readonly userModel: typeof User,
-  ) {}
+  ) { }
 
   async applyLeave(
     userId: string,
@@ -137,10 +141,163 @@ export class LeavesService {
       );
     }
 
+    const balance =
+      await this.leaveBalanceModel.findOne({
+        where: {
+          userId: leave.userId,
+        },
+      });
+
+    if (!balance) {
+      throw new NotFoundException(
+        'Leave balance not found',
+      );
+    }
+
+    const startDate =
+      new Date(
+        leave.startDate,
+      );
+
+    const endDate =
+      new Date(
+        leave.endDate,
+      );
+
+    const leaveDays =
+      Math.floor(
+        (
+          endDate.getTime() -
+          startDate.getTime()
+        ) /
+        (1000 * 60 * 60 * 24),
+      ) + 1;
+
+    switch (
+    leave.leaveType
+    ) {
+      case 'SICK':
+        if (
+          balance.sickLeave <
+          leaveDays
+        ) {
+          throw new BadRequestException(
+            `Only ${balance.sickLeave} sick leave(s) remaining`,
+          );
+        }
+
+        balance.sickLeave -=
+          leaveDays;
+        break;
+
+      case 'CASUAL':
+        if (
+          balance.casualLeave <
+          leaveDays
+        ) {
+          throw new BadRequestException(
+            `Only ${balance.casualLeave} casual leave(s) remaining`,
+          );
+        }
+
+        balance.casualLeave -=
+          leaveDays;
+        break;
+
+      case 'EARNED':
+        if (
+          balance.earnedLeave <
+          leaveDays
+        ) {
+          throw new BadRequestException(
+            `Only ${balance.earnedLeave} earned leave(s) remaining`,
+          );
+        }
+
+        balance.earnedLeave -=
+          leaveDays;
+        break;
+    }
+
+    await balance.save();
+
+    const start =
+      new Date(
+        leave.startDate,
+      );
+
+    const end =
+      new Date(
+        leave.endDate,
+      );
+
+    const totalDays =
+      Math.floor(
+        (
+          end.getTime() -
+          start.getTime()
+        ) /
+        (1000 *
+          60 *
+          60 *
+          24),
+      ) + 1;
+
+    switch (
+    leave.leaveType
+    ) {
+      case 'SICK':
+        if (
+          balance.sickLeave <
+          totalDays
+        ) {
+          throw new BadRequestException(
+            'Insufficient Sick Leave balance',
+          );
+        }
+
+        balance.sickLeave -=
+          totalDays;
+        break;
+
+      case 'CASUAL':
+        if (
+          balance.casualLeave <
+          totalDays
+        ) {
+          throw new BadRequestException(
+            'Insufficient Casual Leave balance',
+          );
+        }
+
+        balance.casualLeave -=
+          totalDays;
+        break;
+
+      case 'EARNED':
+        if (
+          balance.earnedLeave <
+          totalDays
+        ) {
+          throw new BadRequestException(
+            'Insufficient Earned Leave balance',
+          );
+        }
+
+        balance.earnedLeave -=
+          totalDays;
+        break;
+    }
+
+    await balance.save();
+
     await leave.update({
-      status: LeaveStatus.APPROVED,
-      approvedBy: approverId,
-      remarks: dto.remarks || null,
+      status:
+        LeaveStatus.APPROVED,
+      approvedBy:
+        approverId,
+      remarks:
+        dto.remarks || null,
     });
 
     return {
@@ -208,4 +365,43 @@ export class LeavesService {
       leave,
     };
   }
+
+  async getLeaveBalance(
+    userId: string,
+  ) {
+    const balance =
+      await this.leaveBalanceModel.findOne({
+        where: {
+          userId,
+        },
+      });
+
+    if (!balance) {
+      throw new NotFoundException(
+        'Leave balance not found',
+      );
+    }
+
+    return balance;
+  }
+
+  async getMyLeaveBalance(
+    userId: string,
+  ) {
+    const balance =
+      await this.leaveBalanceModel.findOne({
+        where: {
+          userId,
+        },
+      });
+
+    if (!balance) {
+      throw new NotFoundException(
+        'Leave balance not found',
+      );
+    }
+
+    return balance;
+  }
+
 }

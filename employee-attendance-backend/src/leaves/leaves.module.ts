@@ -7,12 +7,15 @@ import { User } from '../database/models/user.model';
 import { LeavesController } from './leaves.controller';
 import { LeavesService } from './leaves.service';
 import { Session } from '../database/models/session.model';
+import { LeaveBalance } from '../database/models/leave-balance.model';
+
 
 
 @Module({
   imports: [
     SequelizeModule.forFeature([
-      LeaveRequest,
+       LeaveRequest,
+      LeaveBalance,
       User,
       Session,
     ]),

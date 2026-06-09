@@ -9,6 +9,7 @@ import { LeaveRequest } from './models/leave-request.model';
 import { Session } from './models/session.model';
 import { Permission } from './models/permission.model';
 import { RolePermission } from './models/role-permission.model';
+import { LeaveBalance } from './models/leave-balance.model';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { RolePermission } from './models/role-permission.model';
           Session,
           Permission,
           RolePermission,
+          LeaveBalance,
         ],
 
         autoLoadModels: true,

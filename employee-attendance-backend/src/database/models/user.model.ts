@@ -11,6 +11,10 @@ import {
 import { Role } from './role.model';
 import { Attendance } from './attendance.model';
 import { LeaveRequest } from './leave-request.model';
+import { LeaveBalance } from './leave-balance.model';
+import {
+  HasOne,
+} from 'sequelize-typescript';
 
 @Table({
   tableName: 'users',
@@ -108,5 +112,8 @@ export class User extends Model<User> {
   })
   declare profilePicture: string | null;
 
+
+  @HasOne(() => LeaveBalance)
+declare leaveBalance: LeaveBalance;
 }
 

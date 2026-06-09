@@ -10,6 +10,8 @@ import { downloadAttendanceReport, downloadLeaveReport, } from '../../api/report
 import DashboardSkeleton from '../../components/common/DashboardSkeleton';
 import { useDispatch, useSelector, } from 'react-redux';
 import { fetchDashboard, } from '../../redux/slices/dashboardSlice';
+import { getMyLeaveBalance, getMyLeaves, } from '../../api/leaveService';
+import { Sick, } from '@mui/icons-material';
 
 const Dashboard = () => {
 
@@ -34,6 +36,20 @@ const Dashboard = () => {
         state.auth.user,
     );
 
+  const [
+    leaveBalance,
+    setLeaveBalance,
+  ] = useState(null);
+
+  const [
+    leaveStats,
+    setLeaveStats,
+  ] = useState({
+    pending: 0,
+    approved: 0,
+  });
+
+
   useEffect(() => {
     if (user?.role) {
       dispatch(
@@ -46,6 +62,10 @@ const Dashboard = () => {
     dispatch,
     user,
   ]);
+
+  useEffect(() => {
+    loadLeaveData();
+  }, []);
 
   const loadDashboard =
     async () => {
@@ -89,6 +109,39 @@ const Dashboard = () => {
         console.error(error);
       } finally {
         setLoading(false);
+      }
+    };
+
+  const loadLeaveData =
+    async () => {
+      try {
+        const balance =
+          await getMyLeaveBalance();
+
+        const leaves =
+          await getMyLeaves();
+
+        setLeaveBalance(
+          balance,
+        );
+
+        setLeaveStats({
+          pending:
+            leaves.filter(
+              l =>
+                l.status ===
+                'PENDING',
+            ).length,
+
+          approved:
+            leaves.filter(
+              l =>
+                l.status ===
+                'APPROVED',
+            ).length,
+        });
+      } catch (error) {
+        console.error(error);
       }
     };
 
@@ -318,7 +371,7 @@ const Dashboard = () => {
             sx={{
               p: 4,
               // backgroundColor: '#f8fafc',
-              
+
               minHeight: '100vh',
             }}
           >
@@ -331,7 +384,7 @@ const Dashboard = () => {
               // backgroundColor:
               //   '#f8fafc',
               background:
-                        'linear-gradient(135deg,#020617 0%,#0f172a 50%,#1e1b4b 100%)',
+                'linear-gradient(135deg,#020617 0%,#0f172a 50%,#1e1b4b 100%)',
               minHeight:
                 '100vh',
             }}
@@ -395,7 +448,7 @@ const Dashboard = () => {
                         >
                           <Box>
                             <Typography color="text.secondary"
-                            
+
                             >
                               {
                                 card.title
@@ -407,10 +460,10 @@ const Dashboard = () => {
                               fontWeight="bold"
                               mt={1}
                               sx={{
-                              display:"flex",
-                              justifyContent:"center",
-                              alignItems:"center"
-                            }}
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center"
+                              }}
                             >
                               {
                                 card.value
@@ -469,6 +522,7 @@ const Dashboard = () => {
                     borderRadius: 5,
                     boxShadow:
                       '0 10px 30px rgba(0,0,0,0.08)',
+                      
                   }}
                 >
                   <CardContent>
@@ -512,186 +566,391 @@ const Dashboard = () => {
 
               {/* HR DASHBOARD */}
               {user?.role === 'HR' && (
-                <Card
-                  elevation={0}
-                  sx={{
-                    mt: 4,
-                    borderRadius: 5,
-                    boxShadow:
-                      '0 10px 30px rgba(0,0,0,0.08)',
+                <Grid
+                  container
+                  spacing={3}
+                  sx={{ mt: 0 ,
+                    background:
+                        'linear-gradient(135deg,#020617 0%,#0f172a 50%,#1e1b4b 100%)',
                   }}
                 >
-                  <CardContent>
-                    <Typography
-                      variant="h5"
-                      fontWeight="bold"
-                      gutterBottom
+                  {/* Recent Leave Requests */}
+
+                  <Grid
+                    size={{
+                      xs: 12,
+                      md: 8,
+                    }}
+                  
+                  >
+                    <Card
+                      elevation={0}
+                      sx={{
+                        borderRadius: 5,
+                        height: '100%',
+                        boxShadow:
+                          '0 10px 30px rgba(0,0,0,0.08)',
+                          
+                      }}
                     >
-                      Recent Leave Requests
-                    </Typography>
+                      <CardContent>
+                        <Typography
+                          variant="h5"
+                          fontWeight="bold"
+                          gutterBottom
+                        >
+                          Recent Leave Requests
+                        </Typography>
 
-                    {stats?.recentLeaves?.length >
-                      0 ? (
-                      stats.recentLeaves.map(
-                        leave => (
-                          <Box
-                            key={leave.id}
-                            sx={{
-                              py: 1.5,
-                              borderBottom:
-                                '1px solid #eee',
-                            }}
-                          >
-                            <Typography
-                              fontWeight={600}
-                            >
-                              {
-                                leave.user
-                                  ?.firstName
-                              }{' '}
-                              {
-                                leave.user
-                                  ?.lastName
-                              }
-                            </Typography>
+                        {stats?.recentLeaves?.length > 0 ? (
+                          stats.recentLeaves.map(
+                            leave => (
+                              <Box
+                                key={leave.id}
+                                sx={{
+                                  py: 1.5,
+                                  borderBottom:
+                                    '1px solid #eee',
+                                    
+                                }}
+                              >
+                                <Typography
+                                  fontWeight={600}
+                                >
+                                  {leave.user?.firstName}{' '}
+                                  {leave.user?.lastName}
+                                </Typography>
 
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                            >
-                              {
-                                leave.leaveType
-                              }{' '}
-                              •{' '}
-                              {
-                                leave.status
-                              }
-                            </Typography>
-                          </Box>
-                        ),
-                      )
-                    ) : (
-                      <Typography>
-                        No leave requests
-                        found
-                      </Typography>
-                    )}
-                  </CardContent>
-                </Card>
+                                <Typography
+                                  variant="body2"
+                                  color="text.secondary"
+                                >
+                                  {leave.leaveType}
+                                  {' • '}
+                                  {leave.status}
+                                </Typography>
+                              </Box>
+                            ),
+                          )
+                        ) : (
+                          <Typography>
+                            No leave requests found
+                          </Typography>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </Grid>
+
+                  {/* Leave Balance */}
+
+                  <Grid
+                    size={{
+                      xs: 12,
+                      md: 4,
+                    }}
+                  >
+                    <Card
+                      elevation={0}
+                      sx={{
+                        borderRadius: 5,
+                        height: '100%',
+                        boxShadow:
+                          '0 10px 30px rgba(0,0,0,0.08)',
+                      }}
+                    >
+                      <CardContent>
+                        <Typography
+                          variant="h5"
+                          fontWeight="bold"
+                          gutterBottom
+                        >
+                          Leave Balance
+                        </Typography>
+
+                        <Typography sx={{ mb: 1 }}>
+                          Sick Leave:
+                          {' '}
+                          {leaveBalance?.sickLeave || 0}
+                        </Typography>
+
+                        <Typography sx={{ mb: 1 }}>
+                          Casual Leave:
+                          {' '}
+                          {leaveBalance?.casualLeave || 0}
+                        </Typography>
+
+                        <Typography sx={{ mb: 1 }}>
+                          Earned Leave:
+                          {' '}
+                          {leaveBalance?.earnedLeave || 0}
+                        </Typography>
+
+                        <Typography sx={{ mt: 2 }}>
+                          Pending Leaves:
+                          {' '}
+                          {leaveStats?.pending || 0}
+                        </Typography>
+
+                        <Typography>
+                          Approved Leaves:
+                          {' '}
+                          {leaveStats?.approved || 0}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                </Grid>
               )}
 
-              {user?.role ===
-                'EMPLOYEE' && (
-                  <Card
-                    elevation={0}
-                    sx={{
-                      mt: 4,
-                      borderRadius: 5,
-                      boxShadow:
-                        '0 10px 30px rgba(0,0,0,0.08)',
-                    }}
+              {/* EMPLOYEE DASHBOARD */}
+{user?.role === 'EMPLOYEE' && (
+  <Grid
+    container
+    spacing={3}
+    sx={{
+      mt: 0,
+      background:
+        'linear-gradient(135deg,#020617 0%,#0f172a 50%,#1e1b4b 100%)',
+    }}
+  >
+    {/* Recent Attendance */}
+
+    <Grid
+      size={{
+        xs: 12,
+        md: 8,
+      }}
+    >
+      <Card
+        elevation={0}
+        sx={{
+          borderRadius: 5,
+          height: '100%',
+          boxShadow:
+            '0 10px 30px rgba(0,0,0,0.08)',
+        }}
+      >
+        <CardContent>
+          <Typography
+            variant="h5"
+            fontWeight="bold"
+            gutterBottom
+          >
+            Recent Attendance
+          </Typography>
+
+          {stats?.recentAttendance?.length > 0 ? (
+            stats.recentAttendance.map(
+              attendance => (
+                <Box
+                  key={attendance.id}
+                  sx={{
+                    py: 1.5,
+                    borderBottom:
+                      '1px solid #eee',
+                  }}
+                >
+                  <Typography
+                    fontWeight={600}
                   >
-                    <CardContent>
-                      <Typography
-                        variant="h5"
-                        fontWeight="bold"
-                        gutterBottom
-                      >
-                        Recent Attendance
-                      </Typography>
+                    {attendance.attendanceDate}
+                  </Typography>
+                </Box>
+              ),
+            )
+          ) : (
+            <Typography>
+              No attendance records found
+            </Typography>
+          )}
+        </CardContent>
+      </Card>
+    </Grid>
 
-                      {stats?.recentAttendance?.map(
-                        attendance => (
-                          <Box
-                            key={
-                              attendance.id
-                            }
-                            sx={{
-                              py: 1.5,
-                              borderBottom:
-                                '1px solid #eee',
-                            }}
-                          >
-                            <Typography
-                              fontWeight={600}
-                            >
-                              {
-                                attendance.attendanceDate
-                              }
-                            </Typography>
-                          </Box>
-                        ),
-                      )}
-                    </CardContent>
-                  </Card>
-                )}
+    {/* Leave Balance */}
 
-              {/* MANAGER DASHBOARD */}
-              {user?.role ===
-                'MANAGER' && (
-                  <Card
-                    elevation={0}
-                    sx={{
-                      mt: 4,
-                      borderRadius: 5,
-                      boxShadow:
-                        '0 10px 30px rgba(0,0,0,0.08)',
-                    }}
+    <Grid
+      size={{
+        xs: 12,
+        md: 4,
+      }}
+    >
+      <Card
+        elevation={0}
+        sx={{
+          borderRadius: 5,
+          height: '100%',
+          boxShadow:
+            '0 10px 30px rgba(0,0,0,0.08)',
+        }}
+      >
+        <CardContent>
+          <Typography
+            variant="h5"
+            fontWeight="bold"
+            gutterBottom
+          >
+            Leave Balance
+          </Typography>
+
+          <Typography sx={{ mb: 1 }}>
+            Sick Leave:{' '}
+            {leaveBalance?.sickLeave || 0}
+          </Typography>
+
+          <Typography sx={{ mb: 1 }}>
+            Casual Leave:{' '}
+            {leaveBalance?.casualLeave || 0}
+          </Typography>
+
+          <Typography sx={{ mb: 1 }}>
+            Earned Leave:{' '}
+            {leaveBalance?.earnedLeave || 0}
+          </Typography>
+
+          <Typography sx={{ mt: 2 }}>
+            Pending Leaves:{' '}
+            {leaveStats?.pending || 0}
+          </Typography>
+
+          <Typography>
+            Approved Leaves:{' '}
+            {leaveStats?.approved || 0}
+          </Typography>
+        </CardContent>
+      </Card>
+    </Grid>
+  </Grid>
+)}
+
+             {/* MANAGER DASHBOARD */}
+{user?.role === 'MANAGER' && (
+  <Grid
+    container
+    spacing={3}
+    sx={{
+      mt: 0,
+      background:
+        'linear-gradient(135deg,#020617 0%,#0f172a 50%,#1e1b4b 100%)',
+    }}
+  >
+    {/* My Team */}
+
+    <Grid
+      size={{
+        xs: 12,
+        md: 8,
+      }}
+    >
+      <Card
+        elevation={0}
+        sx={{
+          borderRadius: 5,
+          height: '100%',
+          boxShadow:
+            '0 10px 30px rgba(0,0,0,0.08)',
+        }}
+      >
+        <CardContent>
+          <Typography
+            variant="h5"
+            fontWeight="bold"
+            gutterBottom
+          >
+            My Team
+          </Typography>
+
+          {stats?.teamList?.length > 0 ? (
+            stats.teamList.map(
+              member => (
+                <Box
+                  key={member.id}
+                  sx={{
+                    py: 1.5,
+                    borderBottom:
+                      '1px solid #eee',
+                  }}
+                >
+                  <Typography
+                    fontWeight={600}
                   >
-                    <CardContent>
-                      <Typography
-                        variant="h5"
-                        fontWeight="bold"
-                        gutterBottom
-                      >
-                        My Team
-                      </Typography>
+                    {member.firstName}{' '}
+                    {member.lastName}
+                  </Typography>
 
-                      {stats?.teamList
-                        ?.length > 0 ? (
-                        stats.teamList.map(
-                          member => (
-                            <Box
-                              key={
-                                member.id
-                              }
-                              sx={{
-                                py: 1.5,
-                                borderBottom:
-                                  '1px solid #eee',
-                              }}
-                            >
-                              <Typography
-                                fontWeight={600}
-                              >
-                                {
-                                  member.firstName
-                                }{' '}
-                                {
-                                  member.lastName
-                                }
-                              </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                  >
+                    {member.email}
+                  </Typography>
+                </Box>
+              ),
+            )
+          ) : (
+            <Typography>
+              No team members found
+            </Typography>
+          )}
+        </CardContent>
+      </Card>
+    </Grid>
 
-                              <Typography
-                                variant="body2"
-                                color="text.secondary"
-                              >
-                                {
-                                  member.email
-                                }
-                              </Typography>
-                            </Box>
-                          ),
-                        )
-                      ) : (
-                        <Typography>
-                          No team members
-                          found
-                        </Typography>
-                      )}
-                    </CardContent>
-                  </Card>
-                )}
+    {/* Leave Balance */}
+
+    <Grid
+      size={{
+        xs: 12,
+        md: 4,
+      }}
+    >
+      <Card
+        elevation={0}
+        sx={{
+          borderRadius: 5,
+          height: '100%',
+          boxShadow:
+            '0 10px 30px rgba(0,0,0,0.08)',
+        }}
+      >
+        <CardContent>
+          <Typography
+            variant="h5"
+            fontWeight="bold"
+            gutterBottom
+          >
+            Leave Balance
+          </Typography>
+
+          <Typography sx={{ mb: 1 }}>
+            Sick Leave:{' '}
+            {leaveBalance?.sickLeave || 0}
+          </Typography>
+
+          <Typography sx={{ mb: 1 }}>
+            Casual Leave:{' '}
+            {leaveBalance?.casualLeave || 0}
+          </Typography>
+
+          <Typography sx={{ mb: 1 }}>
+            Earned Leave:{' '}
+            {leaveBalance?.earnedLeave || 0}
+          </Typography>
+
+          <Typography sx={{ mt: 2 }}>
+            Pending Leaves:{' '}
+            {leaveStats?.pending || 0}
+          </Typography>
+
+          <Typography>
+            Approved Leaves:{' '}
+            {leaveStats?.approved || 0}
+          </Typography>
+        </CardContent>
+      </Card>
+    </Grid>
+  </Grid>
+)}
 
             </Card>
 

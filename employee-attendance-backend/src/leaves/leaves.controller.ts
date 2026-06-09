@@ -82,6 +82,24 @@ export class LeavesController {
     );
   }
 
+  @Get('balance')
+@Permissions('LEAVE_VIEW')
+@ApiOperation({
+  summary: 'Get My Leave Balance',
+})
+@ApiResponse({
+  status: 200,
+  description:
+    'Returns leave balance of logged in user',
+})
+async getMyLeaveBalance(
+  @Req() req,
+) {
+  return this.leavesService.getMyLeaveBalance(
+    req.user.id,
+  );
+}
+
   @Get('team')
   @Permissions('LEAVE_VIEW')
   @ApiOperation({
