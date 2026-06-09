@@ -186,70 +186,88 @@ const AttendanceManagement = () => {
           fontWeight="bold"
           mb={3}
           sx={{
-            color:"#fff"
+            color: "#fff"
           }}
         >
           Attendance
           Management
         </Typography>
 
-        {/* Search */}
 
-        <TextField
-          placeholder="Search Employee..."
-          value={
-            searchTerm
-          }
-          onChange={(
-            e,
-          ) =>
-            setSearchTerm(
-              e.target.value,
-            )
-          }
+        <Box
           sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 2,
             mb: 3,
-            width: 350,
-            background:"#fff",
-            borderRadius:'10px'
-          }}
-          InputProps={{
-            startAdornment:
-              (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
-          }}
-        />
-
-        {/* Stats */}
-
-        <Card
-          elevation={4}
-          sx={{
-            mb: 3,
-            borderRadius: 4,
-            maxWidth: 250,
+            alignItems: 'center'
+            // alignItems: 'stretch',
           }}
         >
-          <CardContent>
-            <Typography
-              color="text.secondary"
-            >
-              Total Records
-            </Typography>
+          {/* Search */}
 
-            <Typography
-              variant="h4"
-              fontWeight="bold"
-            >
-              {
-                attendance.length
-              }
-            </Typography>
-          </CardContent>
-        </Card>
+          <TextField
+            placeholder="Search Employee..."
+            value={
+              searchTerm
+            }
+            onChange={(
+              e,
+            ) =>
+              setSearchTerm(
+                e.target.value,
+              )
+            }
+            sx={{
+              mb: 3,
+              width: 350,
+              background: "#fff",
+              borderRadius: '10px'
+            }}
+            InputProps={{
+              startAdornment:
+                (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
+            }}
+          />
+
+          {/* Stats */}
+
+          <Card
+            elevation={4}
+            sx={{
+              mb: 3,
+              borderRadius: 4,
+              maxWidth: 250,
+            }}
+          >
+            <CardContent>
+              <Typography
+                color="text.secondary"
+              >
+                Total Records
+              </Typography>
+
+              <Typography
+                variant="h4"
+                fontWeight="bold"
+                sx={{
+                  display:"flex",
+            justifyContent:"center"
+                }}
+              >
+                {
+                  attendance.length
+                }
+              </Typography>
+            </CardContent>
+          </Card>
+        </Box>
+
+
 
         {/* DataGrid */}
 

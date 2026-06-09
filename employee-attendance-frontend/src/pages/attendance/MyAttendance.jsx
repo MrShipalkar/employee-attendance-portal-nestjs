@@ -142,7 +142,8 @@ const MyAttendance = () => {
           fontWeight="bold"
           mb={3}
           sx={{
-            color:"#fff"
+            color:"#fff",
+            mb:2
           }}
         >
           My Attendance

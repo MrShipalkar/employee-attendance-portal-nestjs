@@ -260,7 +260,17 @@ const LeaveManagement = () => {
           Leave Management
         </Typography>
 
-        {/* Search */}
+        <Box
+         sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 2,
+            mb: 3,
+            alignItems: 'center'
+            // alignItems: 'stretch',
+          }}
+        >
+     {/* Search */}
 
         <TextField
           placeholder="Search Employee..."
@@ -298,6 +308,7 @@ const LeaveManagement = () => {
             mb: 3,
             borderRadius: 4,
             maxWidth: 250,
+            
           }}
         >
           <CardContent>
@@ -310,6 +321,10 @@ const LeaveManagement = () => {
             <Typography
               variant="h4"
               fontWeight="bold"
+              sx={{
+                display:"flex",
+            justifyContent:"center"
+              }}
             >
               {
                 leaves.length
@@ -317,6 +332,9 @@ const LeaveManagement = () => {
             </Typography>
           </CardContent>
         </Card>
+        </Box>
+
+   
 
         {/* DataGrid */}
 

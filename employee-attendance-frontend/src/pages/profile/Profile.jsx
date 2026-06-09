@@ -178,6 +178,10 @@ const Profile = () => {
                 variant="h4"
                 fontWeight="bold"
                 mb={4}
+                sx={{
+                    color:"#fff",
+                    mb:2
+                }}
             >
                 My Profile
             </Typography>

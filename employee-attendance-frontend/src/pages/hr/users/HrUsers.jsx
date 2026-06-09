@@ -165,13 +165,25 @@ const HrUsers = () => {
           fontWeight="bold"
           mb={3}
           sx={{
-            color:"#fff"
+            color:"#fff",
+            mb:2
           }}
         >
           Employee Directory
         </Typography>
 
-        {/* Search */}
+          <Box
+                  sx={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: 2,
+                    mb: 3,
+                    alignItems:'center'
+                    // alignItems: 'stretch',
+                  }}
+                >
+        
+                {/* Search */}
 
         <TextField
           placeholder="Search Employee..."
@@ -218,13 +230,17 @@ const HrUsers = () => {
                 gap: 2,
               }}
             >
-              <Groups
+              {/* <Groups
                 color="primary"
-              />
+              /> */}
 
               <Box>
                 <Typography
                   color="text.secondary"
+                  sx={{
+                  display:"flex",
+            justifyContent:"center"
+                }}
                 >
                   Employees
                 </Typography>
@@ -232,6 +248,10 @@ const HrUsers = () => {
                 <Typography
                   variant="h4"
                   fontWeight="bold"
+                  sx={{
+                  display:"flex",
+            justifyContent:"center"
+                }}
                 >
                   {
                     users.length
@@ -243,6 +263,10 @@ const HrUsers = () => {
 
           </CardContent>
         </Card>
+        
+                </Box>
+
+ 
 
         {/* DataGrid */}
 

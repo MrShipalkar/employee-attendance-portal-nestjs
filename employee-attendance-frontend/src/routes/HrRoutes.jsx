@@ -5,7 +5,7 @@ import ForcePasswordChangeRoute from './ForcePasswordChangeRoute';
 
 import Dashboard from '../pages/dashboard/Dashboard';
 
-// import HrAttendance from '../pages/hr/attendance/HrAttendance';
+import HrAttendance from '../pages/hr/attendance/HrAttendance';
 import HrLeaveManagement from '../pages/hr/leaves/HrLeaveManagement';
 import HrUsers from '../pages/hr/users/HrUsers';
 // import HrApplyLeave from '../pages/hr/leaves/HrApplyLeave';
@@ -14,6 +14,7 @@ import MyLeaves from '../pages/leaves/MyLeaves';
 // import HrMyAttendance from '../pages/hr/attendance/HrMyAttendance';
 import ApplyLeave from '../pages/leaves/ApplyLeave';
 import MyAttendance from '../pages/attendance/MyAttendance';
+
 
 const HrRoutes = () => (
   <>
@@ -33,7 +34,7 @@ const HrRoutes = () => (
       element={
         <ProtectedRoute allowedRoles={['HR']}>
           <ForcePasswordChangeRoute>
-            <MyAttendance />
+            <HrAttendance />
           </ForcePasswordChangeRoute>
         </ProtectedRoute>
       }

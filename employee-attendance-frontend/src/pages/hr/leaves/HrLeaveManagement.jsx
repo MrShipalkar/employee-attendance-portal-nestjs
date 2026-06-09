@@ -257,7 +257,8 @@ const HrLeaveManagement = () => {
           fontWeight="bold"
           mb={3}
           sx={{
-            color: "#fff"
+            color: "#fff",
+            mb:2
           }}
         >
           Leave Requests
@@ -271,6 +272,7 @@ const HrLeaveManagement = () => {
             flexWrap: 'wrap',
             gap: 2,
             mb: 3,
+            alignItems:"center"
             // alignItems: 'stretch',
           }}
         >
@@ -311,6 +313,10 @@ const HrLeaveManagement = () => {
             <CardContent>
               <Typography
                 color="text.secondary"
+                sx={{
+                  display:"flex",
+            justifyContent:"center"
+                }}
               >
                 Total Requests
               </Typography>
@@ -318,6 +324,10 @@ const HrLeaveManagement = () => {
               <Typography
                 variant="h4"
                 fontWeight="bold"
+                sx={{
+                  display:"flex",
+            justifyContent:"center"
+                }}
               >
                 {leaves.length}
               </Typography>
@@ -335,6 +345,10 @@ const HrLeaveManagement = () => {
             <CardContent>
               <Typography
                 color="text.secondary"
+                sx={{
+                  display:"flex",
+            justifyContent:"center"
+                }}
               >
                 Pending
               </Typography>
@@ -343,6 +357,10 @@ const HrLeaveManagement = () => {
                 variant="h4"
                 fontWeight="bold"
                 color="#f59e0b"
+                sx={{
+                  display:"flex",
+            justifyContent:"center"
+                }}
               >
                 {
                   leaves.filter(
@@ -366,6 +384,10 @@ const HrLeaveManagement = () => {
             <CardContent>
               <Typography
                 color="text.secondary"
+                sx={{
+                  display:"flex",
+            justifyContent:"center"
+                }}
               >
                 Approved
               </Typography>
@@ -374,6 +396,10 @@ const HrLeaveManagement = () => {
                 variant="h4"
                 fontWeight="bold"
                 color="#16a34a"
+                sx={{
+                  display:"flex",
+            justifyContent:"center"
+                }}
               >
                 {
                   leaves.filter(
@@ -397,6 +423,10 @@ const HrLeaveManagement = () => {
             <CardContent>
               <Typography
                 color="text.secondary"
+                sx={{
+                  display:"flex",
+            justifyContent:"center"
+                }}
               >
                 Rejected
               </Typography>
@@ -405,6 +435,10 @@ const HrLeaveManagement = () => {
                 variant="h4"
                 fontWeight="bold"
                 color="#dc2626"
+                sx={{
+                  display:"flex",
+            justifyContent:"center"
+                }}
               >
                 {
                   leaves.filter(

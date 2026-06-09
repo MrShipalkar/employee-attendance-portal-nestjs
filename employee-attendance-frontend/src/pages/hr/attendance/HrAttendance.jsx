@@ -161,11 +161,26 @@ const HrAttendance = () => {
           variant="h4"
           fontWeight="bold"
           mb={3}
+          sx={{
+            color:"#fff",
+            mb:2
+          }}
         >
           Attendance Management
         </Typography>
 
-        {/* Search */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 2,
+            mb: 3,
+            alignItems:'center'
+            // alignItems: 'stretch',
+          }}
+        >
+
+             {/* Search */}
 
         <TextField
           placeholder="Search Employee..."
@@ -180,8 +195,10 @@ const HrAttendance = () => {
             )
           }
           sx={{
-            mb: 3,
-            width: 350,
+            minWidth: 300,
+              maxHeight:55,
+              background: '#fff',
+              borderRadius: 4,
           }}
           InputProps={{
             startAdornment:
@@ -236,6 +253,9 @@ const HrAttendance = () => {
             </Box>
           </CardContent>
         </Card>
+
+        </Box>
+   
 
         {/* DataGrid */}
 
