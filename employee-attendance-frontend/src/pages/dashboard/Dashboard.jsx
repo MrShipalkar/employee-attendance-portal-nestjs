@@ -394,7 +394,9 @@ const Dashboard = () => {
                           }}
                         >
                           <Box>
-                            <Typography color="text.secondary">
+                            <Typography color="text.secondary"
+                            
+                            >
                               {
                                 card.title
                               }
@@ -404,6 +406,11 @@ const Dashboard = () => {
                               variant="h4"
                               fontWeight="bold"
                               mt={1}
+                              sx={{
+                              display:"flex",
+                              justifyContent:"center",
+                              alignItems:"center"
+                            }}
                             >
                               {
                                 card.value
