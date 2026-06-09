@@ -206,7 +206,12 @@ const MyLeaves = () => {
             }}
           >
             <CardContent>
-              <Typography color="text.secondary">
+              <Typography color="text.secondary"
+               sx={{
+                  display:"flex",
+            justifyContent:"center"
+                }}
+                >
                 Pending Requests
               </Typography>
 
@@ -215,6 +220,10 @@ const MyLeaves = () => {
                 fontWeight="bold"
                 color="warning.main"
                 mt={1}
+                 sx={{
+                  display:"flex",
+            justifyContent:"center"
+                }}
               >
                 {pendingLeaves}
               </Typography>
@@ -228,7 +237,12 @@ const MyLeaves = () => {
             }}
           >
             <CardContent>
-              <Typography color="text.secondary">
+              <Typography color="text.secondary"
+               sx={{
+                  display:"flex",
+            justifyContent:"center"
+                }}
+                >
                 Approved Requests
               </Typography>
 
@@ -237,6 +251,10 @@ const MyLeaves = () => {
                 fontWeight="bold"
                 color="success.main"
                 mt={1}
+                 sx={{
+                  display:"flex",
+            justifyContent:"center"
+                }}
               >
                 {approvedLeaves}
               </Typography>
@@ -250,7 +268,12 @@ const MyLeaves = () => {
             }}
           >
             <CardContent>
-              <Typography color="text.secondary">
+              <Typography color="text.secondary"
+               sx={{
+                  display:"flex",
+            justifyContent:"center"
+                }}
+                >
                 Rejected Requests
               </Typography>
 
@@ -259,6 +282,10 @@ const MyLeaves = () => {
                 fontWeight="bold"
                 color="error.main"
                 mt={1}
+                 sx={{
+                  display:"flex",
+            justifyContent:"center"
+                }}
               >
                 {rejectedLeaves}
               </Typography>

@@ -210,7 +210,7 @@ const ApplyLeave = () => {
                   <TextField
                     fullWidth
                     type="date"
-                    label="Start Date"
+                    // label="Start Date"
                     name="startDate"
                     value={
                       formData.startDate
@@ -234,7 +234,7 @@ const ApplyLeave = () => {
                   <TextField
                     fullWidth
                     type="date"
-                    label="End Date"
+                    // label="End Date"
                     name="endDate"
                     value={
                       formData.endDate
