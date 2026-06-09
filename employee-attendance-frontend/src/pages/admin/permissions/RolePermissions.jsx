@@ -164,6 +164,9 @@ const RolePermissions = () => {
           <Typography
             variant="h4"
             fontWeight="bold"
+            sx={{
+              color:"#fff"
+            }}
           >
             Role Permissions
           </Typography>

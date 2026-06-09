@@ -12,7 +12,9 @@ const AppLayout = ({
       sx={{
         display: 'flex',
         minHeight: '100vh',
-        backgroundColor: '#f5f7fb',
+        // backgroundColor: '#f5f7fb',
+        background:
+                        'linear-gradient(135deg,#020617 0%,#0f172a 50%,#1e1b4b 100%)',
       }}
     >
       <AppSidebar />

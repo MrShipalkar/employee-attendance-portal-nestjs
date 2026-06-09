@@ -185,6 +185,9 @@ const AttendanceManagement = () => {
           variant="h4"
           fontWeight="bold"
           mb={3}
+          sx={{
+            color:"#fff"
+          }}
         >
           Attendance
           Management
@@ -207,6 +210,8 @@ const AttendanceManagement = () => {
           sx={{
             mb: 3,
             width: 350,
+            background:"#fff",
+            borderRadius:'10px'
           }}
           InputProps={{
             startAdornment:

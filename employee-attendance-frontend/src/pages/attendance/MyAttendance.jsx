@@ -129,8 +129,10 @@ const MyAttendance = () => {
       <Box
         sx={{
           p: 4,
-          backgroundColor:
-            '#f8fafc',
+          background:
+                        'linear-gradient(135deg,#020617 0%,#0f172a 50%,#1e1b4b 100%)',
+          // backgroundColor:
+          //   '#f8fafc',
           minHeight:
             '100vh',
         }}
@@ -139,6 +141,9 @@ const MyAttendance = () => {
           variant="h4"
           fontWeight="bold"
           mb={3}
+          sx={{
+            color:"#fff"
+          }}
         >
           My Attendance
         </Typography>
@@ -150,9 +155,16 @@ const MyAttendance = () => {
           sx={{
             borderRadius: 4,
             mb: 4,
+            background:
+                          'rgba(255,255,255,0.85)',
           }}
         >
-          <CardContent>
+          <CardContent
+          sx={{
+            background:
+                          'rgba(255,255,255,0.85)',
+          }}
+          >
             <Typography
               variant="h6"
               fontWeight="bold"

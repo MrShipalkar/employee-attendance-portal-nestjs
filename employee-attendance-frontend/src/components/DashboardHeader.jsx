@@ -43,6 +43,9 @@ const user =
                 bgcolor: 'transparent',
                 backdropFilter: 'blur(20px)',
                 borderBottom: '1px solid rgba(0,0,0,0.08)',
+                background:
+                        'linear-gradient(135deg,#020617 0%,#0f172a 50%,#1e1b4b 100%)',
+                        
             }}
         >
             <Toolbar
@@ -57,7 +60,7 @@ const user =
                         variant="h5"
                         fontWeight="bold"
                         sx={{
-                            color: 'black',
+                            color:'#fff',
                         }}
                     >
                         Welcome Back 👋
@@ -66,7 +69,7 @@ const user =
                     <Typography
                         variant="body2"
                         sx={{
-                            color: 'black',
+                            color:'#fff',
                         }}
                     >
                         Manage your workforce efficiently
@@ -104,7 +107,10 @@ const user =
                             badgeContent={3}
                             color="error"
                         >
-                            <NotificationsNone />
+                            <NotificationsNone
+                            sx={{
+                                color:'#fff'
+                            }} />
                         </Badge>
                     </IconButton>
 
@@ -118,6 +124,7 @@ const user =
                             borderRadius: 2,
                             px: 1,
                             py: 0.5,
+                            
                             transition: 'all 0.2s ease',
                             '&:hover': {
                                 bgcolor:
@@ -140,7 +147,7 @@ const user =
                         <Typography
                             fontWeight={600}
                             sx={{
-                                color: 'black',
+                                color:'#fff',
                             }}
                         >
                             {user?.firstName}

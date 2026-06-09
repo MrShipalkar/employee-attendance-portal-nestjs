@@ -140,10 +140,10 @@ const HrLeaveManagement = () => {
                 }
                 color={
                   params.value ===
-                  'APPROVED'
+                    'APPROVED'
                     ? 'success'
                     : params.value ===
-                        'REJECTED'
+                      'REJECTED'
                       ? 'error'
                       : 'warning'
                 }
@@ -167,7 +167,7 @@ const HrLeaveManagement = () => {
             ) =>
               params.row
                 .status ===
-              'PENDING' ? (
+                'PENDING' ? (
                 <Stack
                   direction="row"
                   spacing={
@@ -222,8 +222,7 @@ const HrLeaveManagement = () => {
 
         employee:
           `${leave.user?.firstName || ''
-          } ${
-            leave.user?.lastName || ''
+          } ${leave.user?.lastName || ''
           }`,
 
         leaveType:
@@ -245,8 +244,8 @@ const HrLeaveManagement = () => {
       <Box
         sx={{
           p: 4,
-          backgroundColor:
-            '#f8fafc',
+          background:
+            'linear-gradient(135deg,#020617 0%,#0f172a 50%,#1e1b4b 100%)',
           minHeight:
             '100vh',
         }}
@@ -257,65 +256,168 @@ const HrLeaveManagement = () => {
           variant="h4"
           fontWeight="bold"
           mb={3}
+          sx={{
+            color: "#fff"
+          }}
         >
           Leave Requests
         </Typography>
 
-        {/* Search */}
 
-        <TextField
-          placeholder="Search Employee..."
-          value={
-            searchTerm
-          }
-          onChange={(
-            e,
-          ) =>
-            setSearchTerm(
-              e.target.value,
-            )
-          }
+
+        <Box
           sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 2,
             mb: 3,
-            width: 350,
+            // alignItems: 'stretch',
           }}
-          InputProps={{
-            startAdornment:
-              (
+        >
+
+          {/* Search */}
+
+          <TextField
+            placeholder="Search Employee..."
+            value={searchTerm}
+            onChange={(e) =>
+              setSearchTerm(
+                e.target.value,
+              )
+            }
+            sx={{
+              minWidth: 300,
+              maxHeight:55,
+              background: '#fff',
+              borderRadius: 4,
+            }}
+            InputProps={{
+              startAdornment: (
                 <InputAdornment position="start">
                   <Search />
                 </InputAdornment>
               ),
-          }}
-        />
+            }}
+          />
 
-        {/* Summary Card */}
+          {/* Total */}
 
-        <Card
-          elevation={4}
-          sx={{
-            mb: 3,
-            borderRadius: 4,
-            maxWidth: 250,
-          }}
-        >
-          <CardContent>
-            <Typography
-              color="text.secondary"
-            >
-              Total Leave Requests
-            </Typography>
+          <Card
+            sx={{
+              minWidth: 180,
+              borderRadius: 4,
+            }}
+          >
+            <CardContent>
+              <Typography
+                color="text.secondary"
+              >
+                Total Requests
+              </Typography>
 
-            <Typography
-              variant="h4"
-              fontWeight="bold"
-            >
-              {
-                leaves.length
-              }
-            </Typography>
-          </CardContent>
-        </Card>
+              <Typography
+                variant="h4"
+                fontWeight="bold"
+              >
+                {leaves.length}
+              </Typography>
+            </CardContent>
+          </Card>
+
+          {/* Pending */}
+
+          <Card
+            sx={{
+              minWidth: 180,
+              borderRadius: 4,
+            }}
+          >
+            <CardContent>
+              <Typography
+                color="text.secondary"
+              >
+                Pending
+              </Typography>
+
+              <Typography
+                variant="h4"
+                fontWeight="bold"
+                color="#f59e0b"
+              >
+                {
+                  leaves.filter(
+                    l =>
+                      l.status ===
+                      'PENDING',
+                  ).length
+                }
+              </Typography>
+            </CardContent>
+          </Card>
+
+          {/* Approved */}
+
+          <Card
+            sx={{
+              minWidth: 180,
+              borderRadius: 4,
+            }}
+          >
+            <CardContent>
+              <Typography
+                color="text.secondary"
+              >
+                Approved
+              </Typography>
+
+              <Typography
+                variant="h4"
+                fontWeight="bold"
+                color="#16a34a"
+              >
+                {
+                  leaves.filter(
+                    l =>
+                      l.status ===
+                      'APPROVED',
+                  ).length
+                }
+              </Typography>
+            </CardContent>
+          </Card>
+
+          {/* Rejected */}
+
+          <Card
+            sx={{
+              minWidth: 180,
+              borderRadius: 4,
+            }}
+          >
+            <CardContent>
+              <Typography
+                color="text.secondary"
+              >
+                Rejected
+              </Typography>
+
+              <Typography
+                variant="h4"
+                fontWeight="bold"
+                color="#dc2626"
+              >
+                {
+                  leaves.filter(
+                    l =>
+                      l.status ===
+                      'REJECTED',
+                  ).length
+                }
+              </Typography>
+            </CardContent>
+          </Card>
+
+        </Box>
 
         {/* DataGrid */}
 
@@ -347,13 +449,13 @@ const HrLeaveManagement = () => {
                 ]}
                 initialState={{
                   pagination:
+                  {
+                    paginationModel:
                     {
-                      paginationModel:
-                        {
-                          pageSize:
-                            10,
-                        },
+                      pageSize:
+                        10,
                     },
+                  },
                 }}
                 disableRowSelectionOnClick
               />

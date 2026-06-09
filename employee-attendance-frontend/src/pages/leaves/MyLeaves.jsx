@@ -166,8 +166,8 @@ const MyLeaves = () => {
       <Box
         sx={{
           p: 4,
-          backgroundColor:
-            '#f8fafc',
+          background:
+                        'linear-gradient(135deg,#020617 0%,#0f172a 50%,#1e1b4b 100%)',
           minHeight:
             '100vh',
         }}
@@ -176,6 +176,9 @@ const MyLeaves = () => {
           variant="h4"
           fontWeight="bold"
           mb={3}
+          sx={{
+            color:"#fff"
+          }}
         >
           My Leave Requests
         </Typography>

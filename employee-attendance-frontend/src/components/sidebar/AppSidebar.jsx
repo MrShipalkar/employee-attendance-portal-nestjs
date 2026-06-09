@@ -289,6 +289,7 @@ const AppSidebar = () => {
               }
               color="error"
               variant="contained"
+              
               startIcon={
                 <Logout />
               }
@@ -296,9 +297,11 @@ const AppSidebar = () => {
                 handleLogout
               }
               sx={{
-                py: 1.2,
+                // py: 1.2,
                 borderRadius: 2,
-                minWidth: 0,
+                // minWidth: 0,
+                marginLeft:0.5,
+                width:'90%'
               }}
             >
               {expanded &&

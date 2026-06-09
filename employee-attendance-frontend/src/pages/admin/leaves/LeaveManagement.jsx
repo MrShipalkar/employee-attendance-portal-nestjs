@@ -253,6 +253,9 @@ const LeaveManagement = () => {
           variant="h4"
           fontWeight="bold"
           mb={3}
+          sx={{
+            color:"#fff"
+          }}
         >
           Leave Management
         </Typography>
@@ -274,6 +277,8 @@ const LeaveManagement = () => {
           sx={{
             mb: 3,
             width: 350,
+            background:"#fff",
+            borderRadius:'10px'
           }}
           InputProps={{
             startAdornment:

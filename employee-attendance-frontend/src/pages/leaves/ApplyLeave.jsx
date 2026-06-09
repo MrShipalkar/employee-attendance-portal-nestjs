@@ -103,8 +103,8 @@ const ApplyLeave = () => {
       <Box
         sx={{
           p: 4,
-          backgroundColor:
-            '#f8fafc',
+          background:
+                        'linear-gradient(135deg,#020617 0%,#0f172a 50%,#1e1b4b 100%)',
           minHeight:
             '100vh',
         }}
@@ -113,6 +113,10 @@ const ApplyLeave = () => {
           variant="h4"
           fontWeight="bold"
           mb={3}
+          sx={{
+            color:"#fff",
+            margin:2
+          }}
         >
           Apply Leave
         </Typography>
@@ -122,6 +126,8 @@ const ApplyLeave = () => {
           sx={{
             maxWidth: 900,
             borderRadius: 4,
+            background:
+                          'rgba(255,255,255,0.85)',
           }}
         >
           <CardContent

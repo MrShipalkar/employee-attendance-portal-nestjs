@@ -148,8 +148,8 @@ const HrAttendance = () => {
       <Box
         sx={{
           p: 4,
-          backgroundColor:
-            '#f8fafc',
+          background:
+                        'linear-gradient(135deg,#020617 0%,#0f172a 50%,#1e1b4b 100%)',
           minHeight:
             '100vh',
         }}

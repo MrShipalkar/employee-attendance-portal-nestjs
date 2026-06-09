@@ -274,8 +274,8 @@ const TeamLeaves = () => {
       <Box
         sx={{
           p: 4,
-          backgroundColor:
-            '#f8fafc',
+          background:
+                        'linear-gradient(135deg,#020617 0%,#0f172a 50%,#1e1b4b 100%)',
           minHeight:
             '100vh',
         }}
@@ -285,6 +285,9 @@ const TeamLeaves = () => {
           variant="h4"
           fontWeight="bold"
           mb={3}
+          sx={{
+            color:"#fff"
+          }}
         >
           Team Leave Requests
         </Typography>
@@ -302,6 +305,8 @@ const TeamLeaves = () => {
           sx={{
             mb: 3,
             width: 350,
+            background:"#fff",
+            borderRadius:4
           }}
           InputProps={{
             startAdornment:

@@ -351,11 +351,15 @@ const Users = () => {
             alignItems:
               'center',
             mb: 3,
+            
           }}
         >
           <Typography
             variant="h4"
             fontWeight="bold"
+            sx={{
+              color:"#fff"
+            }}
           >
             Users
             Management
@@ -396,6 +400,8 @@ const Users = () => {
             mb: 3,
             maxWidth:
               400,
+              background:"#fff",
+              borderRadius:'10px'
           }}
           InputProps={{
             startAdornment:

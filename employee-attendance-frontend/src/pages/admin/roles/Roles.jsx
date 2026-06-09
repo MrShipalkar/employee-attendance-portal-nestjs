@@ -104,6 +104,9 @@ const Roles = () => {
           variant="h4"
           fontWeight="bold"
           mb={4}
+          sx={{
+            color:"#fff",
+          }}
         >
           Roles Management
         </Typography>
