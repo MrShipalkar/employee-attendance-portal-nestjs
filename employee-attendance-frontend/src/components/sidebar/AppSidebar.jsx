@@ -100,10 +100,7 @@ const AppSidebar = () => {
         )
       }
       sx={{
-        width:
-          expanded
-            ? expandedWidth
-            : collapsedWidth,
+        width: collapsedWidth,
         flexShrink: 0,
 
         '& .MuiDrawer-paper':
@@ -130,6 +127,7 @@ const AppSidebar = () => {
 
           borderRight:
             'none',
+            
         },
       }}
     >
@@ -143,6 +141,8 @@ const AppSidebar = () => {
 
           height:
             '100%',
+            background:
+                        'linear-gradient(135deg,#020617 0%,#0f172a 50%,#1e1b4b 100%)',
         }}
       >
         <Box
@@ -155,7 +155,7 @@ const AppSidebar = () => {
           {expanded ? (
             <>
               <Typography
-                variant="h5"
+                variant="h6"
                 fontWeight="bold"
               >
                 Employee
@@ -170,7 +170,7 @@ const AppSidebar = () => {
             </>
           ) : (
             <Typography
-              variant="h5"
+              variant="h7"
               fontWeight="bold"
             >
               EA

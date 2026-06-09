@@ -31,6 +31,7 @@ const AppLayout = ({
           sx={{
             p: 3,
             flexGrow: 1,
+            
           }}
         >
           {children}
