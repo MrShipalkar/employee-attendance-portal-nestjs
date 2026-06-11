@@ -51,7 +51,7 @@ const AppSidebar = () => {
 
   const menuItems =
     sidebarConfig[
-      user?.role
+    user?.role
     ] || [];
 
   const handleLogout =
@@ -232,6 +232,28 @@ const AppSidebar = () => {
           sx={{
             flexGrow: 1,
             px: 1,
+
+            overflowY: 'auto',
+            overflowX: 'hidden',
+
+            '&::-webkit-scrollbar': {
+              width: '8px',
+            },
+
+            '&::-webkit-scrollbar-track': {
+              background: 'transparent',
+            },
+
+            '&::-webkit-scrollbar-thumb': {
+              background:
+                'linear-gradient(180deg,#6366F1,#8B5CF6)',
+              borderRadius: '20px',
+            },
+
+            '&::-webkit-scrollbar-thumb:hover': {
+              background:
+                'linear-gradient(180deg,#818CF8,#A78BFA)',
+            },
           }}
         >
           {menuItems.map(

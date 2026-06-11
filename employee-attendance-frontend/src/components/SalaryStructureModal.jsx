@@ -178,11 +178,17 @@ const SalaryStructureModal = ({
         <Grid
           container
           spacing={2}
-          sx={{ mt: 1 }}
+          sx={{ mt: 1,
+            display:'flex',
+            flexDirection:'column',
+            
+           }}
+
         >
           <Grid
             item
             xs={12}
+            
           >
             <TextField
               select
