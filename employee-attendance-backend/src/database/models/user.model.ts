@@ -15,6 +15,8 @@ import { LeaveBalance } from './leave-balance.model';
 import {
   HasOne,
 } from 'sequelize-typescript';
+import { EmployeeSalary } from './employee-salary.model';
+import { Payroll } from './payroll.model';
 
 @Table({
   tableName: 'users',
@@ -115,5 +117,14 @@ export class User extends Model<User> {
 
   @HasOne(() => LeaveBalance)
 declare leaveBalance: LeaveBalance;
+
+@HasOne(() => EmployeeSalary)
+salaryStructure: EmployeeSalary;
+
+@HasMany(() => Payroll)
+payrolls: Payroll[];
+
 }
+
+
 

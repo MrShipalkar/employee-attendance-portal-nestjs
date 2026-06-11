@@ -10,6 +10,8 @@ import { Session } from './models/session.model';
 import { Permission } from './models/permission.model';
 import { RolePermission } from './models/role-permission.model';
 import { LeaveBalance } from './models/leave-balance.model';
+import { EmployeeSalary } from './models/employee-salary.model';
+import { Payroll } from './models/payroll.model';
 
 @Module({
   imports: [
@@ -33,6 +35,8 @@ import { LeaveBalance } from './models/leave-balance.model';
           Permission,
           RolePermission,
           LeaveBalance,
+           EmployeeSalary,
+  Payroll,
         ],
 
         autoLoadModels: true,

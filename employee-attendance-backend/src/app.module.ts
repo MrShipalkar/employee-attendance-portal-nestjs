@@ -18,6 +18,7 @@ import { ReportsModule } from './reports/reports.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CronModule } from './cron/cron.module';
 import { AuthMsModule } from './auth-microservice/auth-ms.module';
+import { PayrollModule } from './payroll/payroll.module';
 
 
 
@@ -42,6 +43,7 @@ import { AuthMsModule } from './auth-microservice/auth-ms.module';
     CronModule,
     AuthMsModule,
     ScheduleModule.forRoot(),
+    PayrollModule,
   ],
 
   controllers: [
