@@ -1,6 +1,7 @@
 import {
     Injectable,
     NotFoundException,
+    ConflictException,
 } from '@nestjs/common';
 
 import {
@@ -36,13 +37,26 @@ export class PayrollService {
         private readonly payslipPdfService: PayslipPdfService,
     ) { }
 
-    async createSalaryStructure(
-        dto: CreateSalaryStructureDto,
-    ) {
-        return this.employeeSalaryModel.create(
-            dto as any,
-        );
-    }
+   async createSalaryStructure(
+  dto: CreateSalaryStructureDto,
+) {
+  const existingSalary =
+    await this.employeeSalaryModel.findOne({
+      where: {
+        employeeId: dto.employeeId,
+      },
+    });
+
+  if (existingSalary) {
+    throw new ConflictException(
+      'Salary structure already exists for this employee',
+    );
+  }
+
+  return this.employeeSalaryModel.create(
+    dto as any,
+  );
+}
 
     async getSalaryStructure(
         employeeId: string,
@@ -183,28 +197,28 @@ export class PayrollService {
         const netSalary =
             grossSalary - deductions;
 
-       const payroll =
-  await this.payrollModel.create({
-    employeeId: dto.employeeId,
-    month: dto.month,
-    year: dto.year,
-    workingDays,
-    presentDays,
-    absentDays,
-    grossSalary,
+        const payroll =
+            await this.payrollModel.create({
+                employeeId: dto.employeeId,
+                month: dto.month,
+                year: dto.year,
+                workingDays,
+                presentDays,
+                absentDays,
+                grossSalary,
 
-    absentDeduction,
+                absentDeduction,
 
-    deductions,
-    netSalary,
+                deductions,
+                netSalary,
 
-    status: 'GENERATED',
-  } as any);
+                status: 'GENERATED',
+            } as any);
 
         return payroll;
     }
 
-   
+
 
     async getAllPayrolls() {
         return this.payrollModel.findAll({
@@ -264,40 +278,56 @@ export class PayrollService {
         });
     }
 
-   async getPayslip(
-  payrollId: string,
-) {
-  const payroll =
-    await this.payrollModel.findByPk(
-      payrollId,
-      {
-        include: [User],
-      },
-    );
+    async getPayslip(
+        payrollId: string,
+    ) {
+        const payroll =
+            await this.payrollModel.findByPk(
+                payrollId,
+                {
+                    include: [User],
+                },
+            );
 
-  if (!payroll) {
-    throw new NotFoundException(
-      'Payroll not found',
-    );
-  }
+        if (!payroll) {
+            throw new NotFoundException(
+                'Payroll not found',
+            );
+        }
 
-  const salaryStructure =
-    await this.employeeSalaryModel.findOne({
-      where: {
-        employeeId: payroll.employeeId,
-      },
-    });
+        const salaryStructure =
+            await this.employeeSalaryModel.findOne({
+                where: {
+                    employeeId: payroll.employeeId,
+                },
+            });
 
-  if (!salaryStructure) {
-    throw new NotFoundException(
-      'Salary structure not found',
-    );
-  }
+        if (!salaryStructure) {
+            throw new NotFoundException(
+                'Salary structure not found',
+            );
+        }
 
-  return await this.payslipPdfService.generatePayslip(
-    payroll,
-    payroll.employee,
-    salaryStructure,
-  );
-}
+        return await this.payslipPdfService.generatePayslip(
+            payroll,
+            payroll.employee,
+            salaryStructure,
+        );
+    }
+
+    async getAllSalaryStructures() {
+        return this.employeeSalaryModel.findAll({
+            include: [
+                {
+                    model: User,
+                    attributes: [
+                        'id',
+                        'firstName',
+                        'lastName',
+                        'email',
+                    ],
+                },
+            ],
+        });
+    }
 }

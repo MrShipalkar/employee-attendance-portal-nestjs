@@ -52,7 +52,22 @@ const AppSidebar = () => {
     useDispatch();
 
   const [expanded, setExpanded] =
-    useState(false);
+    useState(
+      localStorage.getItem(
+        'sidebarExpanded',
+      ) === 'true',
+    );
+
+  const handleExpand = (
+    value,
+  ) => {
+    setExpanded(value);
+
+    localStorage.setItem(
+      'sidebarExpanded',
+      value,
+    );
+  };
 
   const user =
     useSelector(
@@ -90,14 +105,11 @@ const AppSidebar = () => {
     <Drawer
       variant="permanent"
       onMouseEnter={() =>
-        setExpanded(
-          true,
-        )
+        handleExpand(true)
       }
+
       onMouseLeave={() =>
-        setExpanded(
-          false,
-        )
+        handleExpand(false)
       }
       sx={{
         width: collapsedWidth,
@@ -127,7 +139,7 @@ const AppSidebar = () => {
 
           borderRight:
             'none',
-            
+
         },
       }}
     >
@@ -141,8 +153,8 @@ const AppSidebar = () => {
 
           height:
             '100%',
-            background:
-                        'linear-gradient(135deg,#020617 0%,#0f172a 50%,#1e1b4b 100%)',
+          background:
+            'linear-gradient(135deg,#020617 0%,#0f172a 50%,#1e1b4b 100%)',
         }}
       >
         <Box
@@ -289,7 +301,7 @@ const AppSidebar = () => {
               }
               color="error"
               variant="contained"
-              
+
               startIcon={
                 <Logout />
               }
@@ -300,8 +312,8 @@ const AppSidebar = () => {
                 // py: 1.2,
                 borderRadius: 2,
                 // minWidth: 0,
-                marginLeft:0.5,
-                width:'90%'
+                marginLeft: 0.5,
+                width: '90%'
               }}
             >
               {expanded &&

@@ -13,6 +13,7 @@ import TeamLeaves from '../pages/manager/leaves/TeamLeaves';
 import ApplyLeave from '../pages/leaves/ApplyLeave';
 import MyAttendance from '../pages/attendance/MyAttendance';
 import MyLeaves from '../pages/leaves/MyLeaves';
+import Profile from '../pages/profile/Profile';
 
 const ManagerRoutes = () => {
   return (
@@ -82,6 +83,17 @@ const ManagerRoutes = () => {
           </ProtectedRoute>
         }
       />
+
+      <Route
+  path="/manager/profile"
+  element={
+    <ProtectedRoute allowedRoles={['MANAGER']}>
+      <ForcePasswordChangeRoute>
+        <Profile />
+      </ForcePasswordChangeRoute>
+    </ProtectedRoute>
+  }
+/>
     </>
   );
 };

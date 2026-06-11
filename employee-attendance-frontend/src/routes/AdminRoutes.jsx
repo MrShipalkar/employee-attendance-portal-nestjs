@@ -10,8 +10,9 @@ import AttendanceManagement from '../pages/admin/attendance/AttendanceManagement
 import LeaveManagement from '../pages/admin/leaves/LeaveManagement';
 import Roles from '../pages/admin/roles/Roles';
 import RolePermissions from '../pages/admin/permissions/RolePermissions';
-
 import Profile from '../pages/profile/Profile';
+
+
 
 const AdminRoutes = () => (
   <>
@@ -96,6 +97,16 @@ const AdminRoutes = () => (
         </ProtectedRoute>
       }
     />
+    <Route
+  path="/admin/profile"
+  element={
+    <ProtectedRoute allowedRoles={['ADMIN']}>
+      <ForcePasswordChangeRoute>
+        <Profile />
+      </ForcePasswordChangeRoute>
+    </ProtectedRoute>
+  }
+/>
   </>
 );
 

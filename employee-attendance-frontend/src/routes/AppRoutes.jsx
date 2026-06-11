@@ -6,7 +6,7 @@ import {
 
 import Login from '../pages/auth/Login';
 import ChangePassword from '../pages/auth/ChangePassword';
-import Profile from '../pages/profile/Profile';
+
 
 import ProtectedRoute from './ProtectedRoute';
 
@@ -38,7 +38,14 @@ const AppRoutes = () => {
     path="/change-password"
     element={<ChangePassword />}
   />
-
+{/* <Route
+  path="/profile"
+  element={
+    <ProtectedRoute>
+      <Profile />
+    </ProtectedRoute>
+  }
+/> */}
 </Routes>
   );
 };

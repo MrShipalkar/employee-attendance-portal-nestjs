@@ -7,6 +7,8 @@ import {
   EventNote,
   Security,
   Person,
+  ReceiptLong,
+  AccountBalanceWallet,
 } from '@mui/icons-material';
 
 export const sidebarConfig = {
@@ -39,7 +41,7 @@ export const sidebarConfig = {
     {
       text: 'My Profile',
       icon: <Person />,
-      path: '/profile',
+      path: '/admin/profile',
     },
   ],
 
@@ -83,11 +85,22 @@ export const sidebarConfig = {
       icon: <Group />,
       path: '/hr/users',
     },
+      {
+      text: 'Salary Structures',
+      icon: <AccountBalanceWallet />,
+      path: '/hr/salary-structures',
+    },
+    {
+      text: 'Payroll',
+      icon: <ReceiptLong />,
+      path: '/hr/payroll',
+    },
     {
       text: 'My Profile',
       icon: <Person />,
-      path: '/profile',
+      path: '/hr/profile',
     },
+  
   ],
 
   MANAGER: [
@@ -128,7 +141,7 @@ export const sidebarConfig = {
     {
       text: 'My Profile',
       icon: <Person />,
-      path: '/profile',
+      path: '/manager/profile',
     },
   ],
 
@@ -159,7 +172,7 @@ export const sidebarConfig = {
     {
       text: 'My Profile',
       icon: <Person />,
-      path: '/profile',
+      path: '/employee/profile',
     },
   ],
 };

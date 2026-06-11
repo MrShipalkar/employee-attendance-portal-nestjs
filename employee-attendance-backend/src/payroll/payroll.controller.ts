@@ -94,6 +94,11 @@ export class PayrollController {
         );
     }
 
+    @Get('salary-structures')
+    getAllSalaryStructures() {
+        return this.payrollService.getAllSalaryStructures();
+    }
+
     @Get(':id')
     getPayrollById(
         @Param('id')
@@ -103,22 +108,22 @@ export class PayrollController {
     }
 
     @Get(':id/payslip')
-async downloadPayslip(
-  @Param('id')
-  id: string,
+    async downloadPayslip(
+        @Param('id')
+        id: string,
 
-  @Res()
-  res: Response,
-) {
-  const pdf =
-    await this.payrollService.getPayslip(id);
+        @Res()
+        res: Response,
+    ) {
+        const pdf =
+            await this.payrollService.getPayslip(id);
 
-  res.set({
-    'Content-Type': 'application/pdf',
-    'Content-Disposition':
-      `attachment; filename=payslip-${id}.pdf`,
-  });
+        res.set({
+            'Content-Type': 'application/pdf',
+            'Content-Disposition':
+                `attachment; filename=payslip-${id}.pdf`,
+        });
 
-  res.end(pdf);
-}
+        res.end(pdf);
+    }
 }

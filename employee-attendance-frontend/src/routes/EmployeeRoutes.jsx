@@ -11,6 +11,7 @@ import Dashboard from '../pages/dashboard/Dashboard';
 import ApplyLeave from '../pages/leaves/ApplyLeave';
 import MyAttendance from '../pages/attendance/MyAttendance';
 import MyLeaves from '../pages/leaves/MyLeaves';
+import Profile from '../pages/profile/Profile';
 
 const EmployeeRoutes = () => {
   return (
@@ -76,6 +77,16 @@ const EmployeeRoutes = () => {
           </ProtectedRoute>
         }
       />
+      <Route
+  path="/employee/profile"
+  element={
+    <ProtectedRoute allowedRoles={['EMPLOYEE']}>
+      <ForcePasswordChangeRoute>
+        <Profile />
+      </ForcePasswordChangeRoute>
+    </ProtectedRoute>
+  }
+/>
     </>
   );
 };

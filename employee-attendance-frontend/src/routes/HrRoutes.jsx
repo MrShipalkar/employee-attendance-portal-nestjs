@@ -14,7 +14,9 @@ import MyLeaves from '../pages/leaves/MyLeaves';
 // import HrMyAttendance from '../pages/hr/attendance/HrMyAttendance';
 import ApplyLeave from '../pages/leaves/ApplyLeave';
 import MyAttendance from '../pages/attendance/MyAttendance';
-
+import PayrollManagementPage from '../pages/hr/PayrollManagementPage';
+import SalaryStructurePage from '../pages/hr/SalaryStructurePage';
+import Profile from '../pages/profile/Profile';
 
 const HrRoutes = () => (
   <>
@@ -94,7 +96,31 @@ const HrRoutes = () => (
         </ProtectedRoute>
       }
     />
+
+    <Route
+      path="/hr/payroll"
+      element={
+        <PayrollManagementPage />
+      }
+    />
+
+    <Route
+      path="/hr/salary-structures"
+      element={<SalaryStructurePage />}
+    />
+
+    <Route
+  path="/hr/profile"
+  element={
+    <ProtectedRoute allowedRoles={['HR']}>
+      <ForcePasswordChangeRoute>
+        <Profile />
+      </ForcePasswordChangeRoute>
+    </ProtectedRoute>
+  }
+/>
   </>
+
 );
 
 export default HrRoutes;
