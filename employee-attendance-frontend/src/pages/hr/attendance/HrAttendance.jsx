@@ -23,7 +23,6 @@ import {
 
 import AppLayout from '../../../layout/AppLayout';
 
-
 import {
   getAllAttendance,
 } from '../../../api/attendanceService';
@@ -58,7 +57,9 @@ const HrAttendance = () => {
   const filteredAttendance =
     attendance.filter(
       record =>
-        `${record.user?.firstName} ${record.user?.lastName}`
+        `${record.user?.firstName || ''} ${
+          record.user?.lastName || ''
+        }`
           .toLowerCase()
           .includes(
             searchTerm.toLowerCase(),
@@ -72,8 +73,7 @@ const HrAttendance = () => {
           record.id,
 
         employee:
-          `${record.user?.firstName || ''
-          } ${
+          `${record.user?.firstName || ''} ${
             record.user?.lastName || ''
           }`,
 
@@ -102,8 +102,7 @@ const HrAttendance = () => {
 
   const columns = [
     {
-      field:
-        'employee',
+      field: 'employee',
       headerName:
         'Employee',
       flex: 1.5,
@@ -112,22 +111,19 @@ const HrAttendance = () => {
     {
       field:
         'attendanceDate',
-      headerName:
-        'Date',
+      headerName: 'Date',
       flex: 1,
     },
 
     {
-      field:
-        'checkIn',
+      field: 'checkIn',
       headerName:
         'Check In',
       flex: 1,
     },
 
     {
-      field:
-        'checkOut',
+      field: 'checkOut',
       headerName:
         'Check Out',
       flex: 1,
@@ -144,30 +140,25 @@ const HrAttendance = () => {
 
   return (
     <AppLayout>
-
       <Box
         sx={{
-          p: 4,
-          background:
-                        'linear-gradient(135deg,#020617 0%,#0f172a 50%,#1e1b4b 100%)',
-          minHeight:
-            '100vh',
+          p: 1,
         }}
       >
-
-        {/* Header */}
+        {/* Title */}
 
         <Typography
           variant="h4"
           fontWeight="bold"
-          mb={3}
           sx={{
-            color:"#fff",
-            mb:2
+            color: '#fff',
+            mb: 3,
           }}
         >
           Attendance Management
         </Typography>
+
+        {/* Search + Summary */}
 
         <Box
           sx={{
@@ -175,87 +166,81 @@ const HrAttendance = () => {
             flexWrap: 'wrap',
             gap: 2,
             mb: 3,
-            alignItems:'center'
-            // alignItems: 'stretch',
+            alignItems:
+              'center',
           }}
         >
+          <TextField
+            placeholder="Search Employee..."
+            value={
+              searchTerm
+            }
+            onChange={e =>
+              setSearchTerm(
+                e.target.value,
+              )
+            }
+            sx={{
+              width: 350,
 
-             {/* Search */}
+              '& .MuiOutlinedInput-root':
+                {
+                  borderRadius: 4,
+                  background:
+                    '#fff',
+                },
+            }}
+            InputProps={{
+              startAdornment:
+                (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
+            }}
+          />
 
-        <TextField
-          placeholder="Search Employee..."
-          value={
-            searchTerm
-          }
-          onChange={(
-            e,
-          ) =>
-            setSearchTerm(
-              e.target.value,
-            )
-          }
-          sx={{
-            minWidth: 300,
-              maxHeight:55,
-              background: '#fff',
+          <Card
+            elevation={4}
+            sx={{
               borderRadius: 4,
-          }}
-          InputProps={{
-            startAdornment:
-              (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
-          }}
-        />
+              minWidth: 220,
+            }}
+          >
+            <CardContent>
+              <Box
+                sx={{
+                  display:
+                    'flex',
+                  alignItems:
+                    'center',
+                  gap: 2,
+                }}
+              >
+                <AccessTime
+                  color="primary"
+                />
 
-        {/* Summary */}
+                <Box>
+                  <Typography
+                    color="text.secondary"
+                  >
+                    Total Records
+                  </Typography>
 
-        <Card
-          elevation={4}
-          sx={{
-            mb: 3,
-            borderRadius: 4,
-            maxWidth: 250,
-          }}
-        >
-          <CardContent>
-            <Box
-              sx={{
-                display:
-                  'flex',
-                alignItems:
-                  'center',
-                gap: 2,
-              }}
-            >
-              <AccessTime
-                color="primary"
-              />
-
-              <Box>
-                <Typography
-                  color="text.secondary"
-                >
-                  Total Records
-                </Typography>
-
-                <Typography
-                  variant="h4"
-                  fontWeight="bold"
-                >
-                  {
-                    attendance.length
-                  }
-                </Typography>
+                  <Typography
+                    variant="h4"
+                    fontWeight="bold"
+                  >
+                    {
+                      attendance.length
+                    }
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
-          </CardContent>
-        </Card>
-
+            </CardContent>
+          </Card>
         </Box>
-   
 
         {/* DataGrid */}
 
@@ -274,9 +259,7 @@ const HrAttendance = () => {
               }}
             >
               <DataGrid
-                rows={
-                  rows
-                }
+                rows={rows}
                 columns={
                   columns
                 }
@@ -301,9 +284,7 @@ const HrAttendance = () => {
             </Box>
           </CardContent>
         </Card>
-
       </Box>
-
     </AppLayout>
   );
 };

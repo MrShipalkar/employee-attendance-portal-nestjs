@@ -1,8 +1,4 @@
 import {
-  useState,
-} from 'react';
-
-import {
   NavLink,
   useNavigate,
 } from 'react-router-dom';
@@ -15,9 +11,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Divider,
   Button,
-  Tooltip,
 } from '@mui/material';
 
 import {
@@ -41,8 +35,7 @@ import {
   logoutSuccess,
 } from '../../redux/slices/authSlice';
 
-const expandedWidth = 280;
-const collapsedWidth = 80;
+const drawerWidth = 300;
 
 const AppSidebar = () => {
   const navigate =
@@ -51,33 +44,14 @@ const AppSidebar = () => {
   const dispatch =
     useDispatch();
 
-  const [expanded, setExpanded] =
-    useState(
-      localStorage.getItem(
-        'sidebarExpanded',
-      ) === 'true',
-    );
-
-  const handleExpand = (
-    value,
-  ) => {
-    setExpanded(value);
-
-    localStorage.setItem(
-      'sidebarExpanded',
-      value,
-    );
-  };
-
   const user =
     useSelector(
-      state =>
-        state.auth.user,
+      state => state.auth.user,
     );
 
   const menuItems =
     sidebarConfig[
-    user?.role
+      user?.role
     ] || [];
 
   const handleLogout =
@@ -90,7 +64,6 @@ const AppSidebar = () => {
         );
       }
 
-
       dispatch(
         logoutSuccess(),
       );
@@ -100,30 +73,28 @@ const AppSidebar = () => {
       );
     };
 
-
   return (
     <Drawer
       variant="permanent"
-      onMouseEnter={() =>
-        handleExpand(true)
-      }
-
-      onMouseLeave={() =>
-        handleExpand(false)
-      }
       sx={{
-        width: collapsedWidth,
+        width:
+          drawerWidth,
+
         flexShrink: 0,
 
         '& .MuiDrawer-paper':
         {
           width:
-            expanded
-              ? expandedWidth
-              : collapsedWidth,
+            drawerWidth,
 
-          transition:
-            'width 0.3s ease',
+          margin:
+            '16px',
+
+          height:
+            'calc(100% - 32px)',
+
+          borderRadius:
+            '28px',
 
           overflowX:
             'hidden',
@@ -132,14 +103,16 @@ const AppSidebar = () => {
             'border-box',
 
           background:
-            'linear-gradient(180deg,#0f172a 0%,#111827 100%)',
+            'rgba(15, 23, 42, 0.85)',
+
+          backdropFilter:
+            'blur(20px)',
+
+          border:
+            '1px solid rgba(255,255,255,0.08)',
 
           color:
             '#fff',
-
-          borderRight:
-            'none',
-
         },
       }}
     >
@@ -153,49 +126,112 @@ const AppSidebar = () => {
 
           height:
             '100%',
-          background:
-            'linear-gradient(135deg,#020617 0%,#0f172a 50%,#1e1b4b 100%)',
         }}
       >
+
+        {/* Logo */}
+
         <Box
           sx={{
             p: 3,
-            textAlign:
+            display:
+              'flex',
+
+            alignItems:
               'center',
+
+            gap: 2,
           }}
         >
-          {expanded ? (
-            <>
-              <Typography
-                variant="h6"
-                fontWeight="bold"
-              >
-                Employee
-              </Typography>
+          <Box
+            sx={{
+              width: 52,
+              height: 52,
 
-              <Typography
-                variant="body2"
-                color="gray"
-              >
-                Attendance Portal
-              </Typography>
-            </>
-          ) : (
+              borderRadius:
+                '16px',
+
+              background:
+                'linear-gradient(135deg,#6366F1,#8B5CF6)',
+
+              display:
+                'flex',
+
+              alignItems:
+                'center',
+
+              justifyContent:
+                'center',
+
+              fontWeight: 700,
+              fontSize: 22,
+            }}
+          >
+            EA
+          </Box>
+
+          <Box>
             <Typography
-              variant="h7"
-              fontWeight="bold"
+              fontWeight={700}
+              fontSize={20}
             >
-              EA
+              EA Portal
             </Typography>
-          )}
+
+            <Typography
+              variant="body2"
+              sx={{
+                color:
+                  'rgba(255,255,255,0.6)',
+              }}
+            >
+              HR Management
+            </Typography>
+          </Box>
         </Box>
 
-        <Divider />
+        {/* User Card */}
+
+        <Box
+          sx={{
+            mx: 2,
+            mb: 3,
+            p: 2,
+
+            borderRadius:
+              '20px',
+
+            background:
+              'rgba(255,255,255,0.05)',
+
+            border:
+              '1px solid rgba(255,255,255,0.08)',
+          }}
+        >
+          <Typography
+            fontWeight={600}
+          >
+            {user?.firstName}{' '}
+            {user?.lastName}
+          </Typography>
+
+          <Typography
+            variant="body2"
+            sx={{
+              color:
+                'rgba(255,255,255,0.6)',
+            }}
+          >
+            {user?.role}
+          </Typography>
+        </Box>
+
+        {/* Navigation */}
 
         <List
           sx={{
             flexGrow: 1,
-            mt: 2,
+            px: 1,
           }}
         >
           {menuItems.map(
@@ -221,109 +257,119 @@ const AppSidebar = () => {
                 {({
                   isActive,
                 }) => (
-                  <Tooltip
-                    title={
-                      expanded
-                        ? ''
-                        : item.text
-                    }
-                    placement="right"
-                  >
-                    <ListItemButton
-                      sx={{
-                        mx: 1,
-                        mb: 1,
+                  <ListItemButton
+                    sx={{
+                      mx: 1,
+                      mb: 1,
 
-                        borderRadius: 2,
+                      py: 1.5,
 
-                        justifyContent:
-                          expanded
-                            ? 'initial'
-                            : 'center',
+                      borderRadius:
+                        '16px',
 
-                        backgroundColor:
+                      background:
+                        isActive
+                          ? 'linear-gradient(135deg,#4F46E5,#6366F1)'
+                          : 'transparent',
+
+                      transition:
+                        'all .25s ease',
+
+                      '&:hover':
+                      {
+                        background:
                           isActive
-                            ? '#1976d2'
-                            : 'transparent',
+                            ? 'linear-gradient(135deg,#4F46E5,#6366F1)'
+                            : 'rgba(255,255,255,0.08)',
+                      },
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        color:
+                          '#fff',
 
-                        '&:hover':
-                        {
-                          backgroundColor:
-                            isActive
-                              ? '#1976d2'
-                              : 'rgba(255, 255, 255, 0.5)',
-                        },
+                        minWidth:
+                          42,
                       }}
                     >
-                      <ListItemIcon
-                        sx={{
-                          color:
-                            '#fff',
+                      {
+                        item.icon
+                      }
+                    </ListItemIcon>
 
-                          minWidth:
-                            expanded
-                              ? 40
-                              : 'unset',
-                        }}
-                      >
-                        {
-                          item.icon
-                        }
-                      </ListItemIcon>
-
-                      {expanded && (
-                        <ListItemText
-                          primary={
-                            item.text
-                          }
-                        />
-                      )}
-                    </ListItemButton>
-                  </Tooltip>
+                    <ListItemText
+                      primary={
+                        item.text
+                      }
+                    />
+                  </ListItemButton>
                 )}
               </NavLink>
             ),
           )}
         </List>
 
-        <Box p={2}>
-          <Tooltip
-            title={
-              expanded
-                ? ''
-                : 'Logout'
-            }
-            placement="right"
-          >
-            <Button
-              fullWidth={
-                expanded
-              }
-              color="error"
-              variant="contained"
+        {/* Account Section */}
 
-              startIcon={
-                <Logout />
-              }
-              onClick={
-                handleLogout
-              }
-              sx={{
-                // py: 1.2,
-                borderRadius: 2,
-                // minWidth: 0,
-                marginLeft: 0.5,
-                width: '90%'
-              }}
-            >
-              {expanded &&
-                'Logout'}
-            </Button>
-          </Tooltip>
+        <Box
+          sx={{
+            px: 3,
+            pb: 2,
+          }}
+        >
+          <Typography
+            sx={{
+              color:
+                'rgba(255,255,255,0.5)',
+
+              fontSize: 12,
+
+              textTransform:
+                'uppercase',
+
+              letterSpacing:
+                1,
+
+              mb: 1,
+            }}
+          >
+            Account
+          </Typography>
+
+          <Button
+            fullWidth
+            startIcon={
+              <Logout />
+            }
+            onClick={
+              handleLogout
+            }
+            sx={{
+              py: 1.5,
+
+              borderRadius:
+                '16px',
+
+              background:
+                'rgba(239,68,68,0.15)',
+
+              color:
+                '#EF4444',
+
+              '&:hover':
+              {
+                background:
+                  'rgba(239,68,68,0.25)',
+              },
+            }}
+          >
+            Logout
+          </Button>
         </Box>
+
       </Box>
     </Drawer>
-
   );
 };
 
